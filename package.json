@@ -1,7 +1,7 @@
 {
   "version": "0.0.3",
   "name": "burm",
-  "description": "Burm is a object relational manager for Bun.",
+  "description": "Burm is an object relational manager for Bun.",
   "main": "src/index.ts",
   "private": false,
   "scripts": {
