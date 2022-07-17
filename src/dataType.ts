@@ -1,5 +1,5 @@
-let TEXT = "TEXT";
-let INTEGER = "INT";
+const TEXT = "TEXT";
+const INTEGER = "INT";
 
 export default {
     TEXT,

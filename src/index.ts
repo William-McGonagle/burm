@@ -1,5 +1,6 @@
 import DataType from "./dataType";
 import QueryManager from "./queryManager";
+import Condition from "./condition";
 
 // Allowed Databases
 // - MongoDB
@@ -39,7 +40,8 @@ console.log(
         lastname: DataType.TEXT
     }
 ).findOne({
-    where: {
-        id: 3
-    }
+    where: Condition.and(
+        Condition.equals("firstname", "William"),
+        Condition.equals("lastname", "William")
+    )
 }))
