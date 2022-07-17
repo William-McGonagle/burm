@@ -12,7 +12,7 @@ import Condition from "./condition";
 const User = QueryManager.register('User', {
     firstname: DataType.TEXT,
     lastname: DataType.TEXT
-})
+});
 
 let userCreateQuery = User.create({
     firstname: "William",
@@ -26,5 +26,8 @@ let userSearchQuery = User.findAll({
     )
 });
 
-console.log(userCreateQuery);
-console.log(userSearchQuery);
+export default QueryManager;
+export {
+    DataType,
+    Condition
+};

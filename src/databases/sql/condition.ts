@@ -1,46 +1,4 @@
-function findOne(queryObject, databaseObject) {
-
-    return `SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""} LIMIT 1`;
-
-}
-
-function findAll(queryObject, databaseObject) {
-
-    return `SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""}`;
-
-}
-
-function create(queryObject, databaseObject) {
-
-    let params:Array<string> = [];
-    let values:Array<string> = [];
-
-    for (const key in queryObject) {
-        
-        params.push(key);
-        values.push(`"${queryObject[key]}"`);
-
-    }
-
-    return `INSERT INTO ${databaseObject.name}(${params.join(', ')}) VALUES (${values.join(', ')})`;
-
-}
-
-function remove(queryObject, databaseObject) {
-
-    if (queryObject.where == undefined) return "";
-
-    return `DELETE FROM ${databaseObject.name} WHERE ${processCondition(queryObject.where)}`;
-
-}
-
-function clear(queryObject, databaseObject) {
-
-    return `DELETE FROM ${databaseObject.name}`;
-
-}
-
-function processCondition(conditionObject) {
+export default function processCondition(conditionObject) {
 
     if (conditionObject.type == undefined) return "";
 
@@ -95,11 +53,3 @@ function processCondition(conditionObject) {
     return "";
 
 }
-
-export default {
-    findOne,
-    findAll,
-    create,
-    remove,
-    clear
-};
