@@ -41,3 +41,24 @@ const userData = User.findOne({
 console.log(userData); // Logs the First User Object
 
 ```
+
+## Agenda and Plan
+
+We want Burm to be the go-to ORM for Bun, but how are we going to do that? Well, let's start by laying out what the agenda is below.
+
+1. Build a modular skeleton of an ORM. This will allow basic CRUD, Middleware, Caching, and some other features.
+2. Create database wrappers
+    - SQL
+    - SQLite
+    - Snowflake
+    - postgreSQL
+    - MongoDB
+    - CasandraDB
+    - SQL Server
+    - MariaDB
+3. Create database packages
+    - There is no point in having database wrappers (which are used to generate the queries), if you do not have packages to actually connect to the database and run the queries. That is why for each database wrapper, we will also need a database package.
+
+If you have any pieces that you would like to add to this (very rough) agenda, just put them in a Github issue and send it in. Other people will be able to see it, and hopefully work on the idea.
+
+Also not included in this agenda is a documentation website and landing page. Since it's supported by the Fairfield Programming Association, we are able to host it on the FPA servers and use the FPA domain.
