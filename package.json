@@ -1,0 +1,11 @@
+{
+  "version": "0.0.2",
+  "name": "test",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "bun src/index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^0.0.83"
+  }
+}
