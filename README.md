@@ -7,7 +7,7 @@
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/fairfield-programming?color=orange)
 ![GitHub top language](https://img.shields.io/github/languages/top/william-mcgonagle/burm?color=purple)
 
-## About
+Burm is a object relational manager for Bun, the fastest Javascript Engine. The name is a merge of "Bun" and "ORM", forming "Burm". Pronounce it however you would like, we really don't care. Also, the project is licensed under the MIT license and managed by the Fairfield Programming Association. This means you can do whatever you want with it while still knowing it's not going anywhere.
 
 ## API
 
@@ -24,6 +24,6 @@ const userData = User.findOne({
     where: Condition.Equals("id", 1)
 })
 
-console.log(userData);
+console.log(userData); // Logs the First User Object
 
 ```
