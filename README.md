@@ -9,7 +9,21 @@
 
 Burm is a object relational manager for Bun, the fastest Javascript Engine. The name is a merge of "Bun" and "ORM", forming "Burm". Pronounce it however you would like, we really don't care. Also, the project is licensed under the MIT license and managed by the Fairfield Programming Association. This means you can do whatever you want with it while still knowing it's not going anywhere.
 
-## API
+## Getting Started
+
+To install [Bun](https://bun.sh/), run the following code. From there, you can create your own bun project and use Bun or [NPM](https://npmjs.com/) as your package manager.
+
+```bash
+curl https://bun.sh/install | bash
+```
+
+To download the project from NPM, just use the command below. This will include burm as one of your dependencies (Just a side note, burm doesn't depend on any other packages, because we're just that cool).
+
+```bash
+npm i burm
+```
+
+Below is some starter code that you can use to get burm included in your project. Burm allows for models to be created at runtime, procedural data generation for testing, and many other cool things you can check out in our documentation.
 
 ```javascript
 
