@@ -3,9 +3,28 @@ import Sqlite from './databases/sqlite';
 let currentLanguage = "SQLITE";
 let factory = {};
 
-function register(name, databaseObject) {
+function register(name, object) {
 
-    factory[name] = databaseObject;
+    let intermediate = {
+        name,
+        hasParameter: function (paramName) {
+
+            return this.parameters[paramName] !== undefined
+        
+        },
+        findOne: function (query) {
+
+            return findOne(query, this)
+
+        },
+        parameters: object,
+        belongsTo: [],
+        hasMany: []
+    }
+
+    factory[name] = intermediate;
+
+    return intermediate
 
 }
 
