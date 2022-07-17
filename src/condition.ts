@@ -28,8 +28,63 @@ function equals(parameter, value) {
 
 }
 
+function notEquals(parameter, value) {
+
+    return {
+        type: "NOT_EQUALS",
+        parameter,
+        value
+    };
+
+}
+
+function lessThan(parameter, value) {
+
+    return {
+        type: "LESS_THAN",
+        parameter,
+        value
+    };
+
+}
+
+function greaterThan(parameter, value) {
+
+    return {
+        type: "GREATER_THAN",
+        parameter,
+        value
+    };
+
+}
+
+function lessThanOrEqualTo(parameter, value) {
+
+    return {
+        type: "LESS_THAN_OR_EQUAL_TO",
+        parameter,
+        value
+    };
+
+}
+
+function greaterThanOrEqualTo(parameter, value) {
+
+    return {
+        type: "GREATER_THAN_OR_EQUAL_TO",
+        parameter,
+        value
+    };
+
+}
+
 export default {
     and,
     or,
-    equals
+    equals,
+    notEquals,
+    lessThan,
+    greaterThan,
+    lessThanOrEqualTo,
+    greaterThanOrEqualTo
 };

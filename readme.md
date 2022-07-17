@@ -6,9 +6,9 @@
 
 ```javascript
 
-import Burn, { Datatype, Condition } from "burn";
+import Burm, { Datatype, Condition } from "burm";
 
-const User = Bun.register("User", {
+const User = Burm.register("User", {
     firstname: Datatype.STRING,
     lastname: Datatype.STRING
 })

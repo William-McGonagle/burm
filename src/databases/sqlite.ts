@@ -1,5 +1,11 @@
 function findOne(queryObject, databaseObject) {
 
+    return `SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""} LIMIT 1`;
+
+}
+
+function findAll(queryObject, databaseObject) {
+
     return `SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""}`;
 
 }
@@ -26,10 +32,41 @@ function processCondition(conditionObject) {
         
     }
 
+    if (conditionObject.type == "NOT_EQUALS") {
+
+        return `${conditionObject.parameter} != ${conditionObject.value}`;
+
+    }
+
+    if (conditionObject.type == "LESS_THAN") {
+
+        return `${conditionObject.parameter} < ${conditionObject.value}`;
+
+    }
+
+    if (conditionObject.type == "GREATER_THAN") {
+
+        return `${conditionObject.parameter} > ${conditionObject.value}`;
+
+    }
+
+    if (conditionObject.type == "LESS_THAN_OR_EQUAL_TO") {
+
+        return `${conditionObject.parameter} <= ${conditionObject.value}`;
+
+    }
+
+    if (conditionObject.type == "GREATER_THAN_OR_EQUAL_TO") {
+
+        return `${conditionObject.parameter} >= ${conditionObject.value}`;
+
+    }
+
     return "";
 
 }
 
 export default {
-    findOne
+    findOne,
+    findAll
 };
