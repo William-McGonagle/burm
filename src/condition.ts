@@ -2,7 +2,7 @@
  * We have multiple conditions which all need to run different code
  * in the database-wrapper. This is used to identify the conditions
  */
-enum ConditionType {
+export enum ConditionType {
     AND = 0,
     OR = 1,
     EQUALS = 2,
@@ -17,7 +17,7 @@ enum ConditionType {
  * This is an interface for any condition which will be processed later
  * in the database-wrapper
  */
-interface Condition {
+export interface Condition {
     type: ConditionType;
     parameter: any;
     value: any;
@@ -43,35 +43,35 @@ export default {
     /**
      * This checks if one of 2 boolean values is true
      */
-    or: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    or: (parameter: any, value: any) => createCondition(ConditionType.OR, parameter, value),
 
     /**
      * This checks if one value equals another value
      */
-    equals: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    equals: (parameter: any, value: any) => createCondition(ConditionType.EQUALS, parameter, value),
 
     /**
      * This checks if one value not equals another value
      */
-    notEquals: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    notEquals: (parameter: any, value: any) => createCondition(ConditionType.NOT_EQUALS, parameter, value),
 
     /**
      * This checks if one number value is less than another number value
      */
-    lessThan: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    lessThan: (parameter: any, value: any) => createCondition(ConditionType.LESS_THAN, parameter, value),
 
     /**
      * This checks if one number value is greater than another number value
      */
-    greaterThan: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    greaterThan: (parameter: any, value: any) => createCondition(ConditionType.GREATER_THAN, parameter, value),
 
     /**
      * This checks if one number value is less than or equals another number value
      */
-    lessThanOrEquals: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    lessThanOrEquals: (parameter: any, value: any) => createCondition(ConditionType.LESS_THAN_OR_EQUAL_TO, parameter, value),
 
     /**
      * This checks if one number value is greater than or equals another number value
      */
-    greaterThanOrEquals: (parameter: any, value: any) => createCondition(ConditionType.AND, parameter, value),
+    greaterThanOrEquals: (parameter: any, value: any) => createCondition(ConditionType.GREATER_THAN_OR_EQUAL_TO, parameter, value),
 }

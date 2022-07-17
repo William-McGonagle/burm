@@ -1,55 +1,32 @@
-export default function processCondition(conditionObject) {
+import {Condition, ConditionType} from "../../condition";
 
-    if (conditionObject.type == undefined) return "";
+export default function processCondition(condition: Condition) {
+    switch (condition.type) {
+        case ConditionType.EQUALS:
+            return `${condition.parameter} = "${condition.value}"`;
 
-    if (conditionObject.type == "EQUALS") {
+        case ConditionType.AND:
+            return `${processCondition(condition.parameter)} AND ${processCondition(condition.value)}`;
 
-        return `${conditionObject.parameter} = "${conditionObject.value}"`;
-        
+        case ConditionType.OR:
+            return `${processCondition(condition.parameter)} OR ${processCondition(condition.value)}`;
+
+        case ConditionType.NOT_EQUALS:
+            return `${condition.parameter} != ${condition.value}`;
+
+        case ConditionType.LESS_THAN:
+            return `${condition.parameter} < ${condition.value}`;
+
+        case ConditionType.GREATER_THAN:
+            return `${condition.parameter} > ${condition.value}`;
+
+        case ConditionType.LESS_THAN_OR_EQUAL_TO:
+            return `${condition.parameter} <= ${condition.value}`;
+
+        case ConditionType.GREATER_THAN_OR_EQUAL_TO:
+            return `${condition.parameter} >= ${condition.value}`;
+
+        default:
+            return condition
     }
-
-    if (conditionObject.type == "AND") {
-
-        return `${processCondition(conditionObject.a)} AND ${processCondition(conditionObject.b)}`;
-        
-    }
-
-    if (conditionObject.type == "OR") {
-
-        return `${processCondition(conditionObject.a)} OR ${processCondition(conditionObject.b)}`;
-        
-    }
-
-    if (conditionObject.type == "NOT_EQUALS") {
-
-        return `${conditionObject.parameter} != ${conditionObject.value}`;
-
-    }
-
-    if (conditionObject.type == "LESS_THAN") {
-
-        return `${conditionObject.parameter} < ${conditionObject.value}`;
-
-    }
-
-    if (conditionObject.type == "GREATER_THAN") {
-
-        return `${conditionObject.parameter} > ${conditionObject.value}`;
-
-    }
-
-    if (conditionObject.type == "LESS_THAN_OR_EQUAL_TO") {
-
-        return `${conditionObject.parameter} <= ${conditionObject.value}`;
-
-    }
-
-    if (conditionObject.type == "GREATER_THAN_OR_EQUAL_TO") {
-
-        return `${conditionObject.parameter} >= ${conditionObject.value}`;
-
-    }
-
-    return "";
-
 }
