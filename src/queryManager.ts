@@ -12,11 +12,13 @@ function register(name, object) {
         
         if (typeof object[key] == 'string') {
 
-            
+            parameters[key] = {
+                type: object[key]
+            };
 
         } else if (typeof object[key] == 'object') {
 
-
+            parameters[key] = object[key];
 
         }
 
