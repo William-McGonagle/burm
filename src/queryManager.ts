@@ -17,6 +17,16 @@ function register(name, object) {
             return findOne(query, this)
 
         },
+        findAll: function (query) {
+
+            return findAll(query, this)
+
+        },
+        create: function (query) {
+
+            return create(query, this)
+
+        },
         parameters: object,
         belongsTo: [],
         hasMany: []
@@ -28,13 +38,36 @@ function register(name, object) {
 
 }
 
+function localObjectCleaner() {
+
+    
+
+}
+
 function findOne(queryObject, databaseObject) {
 
     if (currentLanguage == "SQLITE") return Sqlite.findOne(queryObject, databaseObject);
 
 }
 
+function findAll(queryObject, databaseObject) {
+
+    if (currentLanguage == "SQLITE") return Sqlite.findAll(queryObject, databaseObject);
+
+}
+
+function create(queryObject, databaseObject) {
+
+    if (currentLanguage == "SQLITE") return Sqlite.create(queryObject, databaseObject);
+
+}
+
+function remove(queryObject, databaseObject) {
+
+    if (currentLanguage == "SQLITE") return Sqlite.remove(queryObject, databaseObject);
+
+}
+
 export default {
-    register,
-    findOne
+    register
 };

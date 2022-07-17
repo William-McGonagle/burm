@@ -10,6 +10,36 @@ function findAll(queryObject, databaseObject) {
 
 }
 
+function create(queryObject, databaseObject) {
+
+    let params:Array<string> = [];
+    let values:Array<string> = [];
+
+    for (const key in queryObject) {
+        
+        params.push(key);
+        values.push(`"${queryObject[key]}"`);
+
+    }
+
+    return `INSERT INTO ${databaseObject.name}(${params.join(', ')}) VALUES (${values.join(', ')})`;
+
+}
+
+function remove(queryObject, databaseObject) {
+
+    if (queryObject.where == undefined) return "";
+
+    return `DELETE FROM ${databaseObject.name} WHERE ${processCondition(queryObject.where)}`;
+
+}
+
+function clear(queryObject, databaseObject) {
+
+    return `DELETE FROM ${databaseObject.name}`;
+
+}
+
 function processCondition(conditionObject) {
 
     if (conditionObject.type == undefined) return "";
@@ -68,5 +98,8 @@ function processCondition(conditionObject) {
 
 export default {
     findOne,
-    findAll
+    findAll,
+    create,
+    remove,
+    clear
 };

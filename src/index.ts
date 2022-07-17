@@ -9,14 +9,22 @@ import Condition from "./condition";
 // - PostgreSQL
 // - Casandra
 
-console.log(
-    QueryManager.register('User', {
-        firstname: DataType.TEXT,
-        lastname: DataType.TEXT
-    }
-).findOne({
+const User = QueryManager.register('User', {
+    firstname: DataType.TEXT,
+    lastname: DataType.TEXT
+})
+
+let userCreateQuery = User.create({
+    firstname: "William",
+    lastname: "McGonagle"
+});
+
+let userSearchQuery = User.findAll({
     where: Condition.and(
         Condition.equals("firstname", "William"),
-        Condition.equals("lastname", "William")
+        Condition.equals("lastname", "McGonagle")
     )
-}))
+});
+
+console.log(userCreateQuery);
+console.log(userSearchQuery);
