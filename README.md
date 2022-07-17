@@ -1,4 +1,4 @@
-# ![Burm](https://raw.githubusercontent.com/William-McGonagle/burm/d570084e5f2105444466b218af9c72628dea82cb/.github/media/cover.svg)
+# ![Burm](https://raw.githubusercontent.com/William-McGonagle/burm/master/.github/media/cover.svg)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/william-mcgonagle/burm)
 ![GitHub issues](https://img.shields.io/github/issues/william-mcgonagle/burm)
