@@ -4,7 +4,9 @@ const db = new Database(":memory:");
 
 export default function executeDatabaseQuery(queryText) {
 
+    // In future, use variables (denoted with dollar signs) and all function
+
     console.log(queryText);
-    console.log(db.query(queryText).all());
+    return db.query(queryText).all();
 
 }

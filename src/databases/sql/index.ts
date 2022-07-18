@@ -9,13 +9,13 @@ function initializeModel(queryObject, databaseObject) {
 
 function findOne(queryObject, databaseObject) {
 
-    executeDatabaseQuery(`SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""} LIMIT 1`);
+    return executeDatabaseQuery(`SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""} LIMIT 1`);
 
 }
 
 function findAll(queryObject, databaseObject) {
 
-    executeDatabaseQuery(`SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""}`);
+    return executeDatabaseQuery(`SELECT * FROM ${databaseObject.name}${(queryObject.where !== undefined) ? ` WHERE ${processCondition(queryObject.where)}` : ""}`);
 
 }
 
@@ -31,7 +31,7 @@ function create(queryObject, databaseObject) {
 
     }
 
-    executeDatabaseQuery(`INSERT INTO ${databaseObject.name}(${params.join(', ')}) VALUES (${values.join(', ')})`);
+    return executeDatabaseQuery(`INSERT INTO ${databaseObject.name}(${params.join(', ')}) VALUES (${values.join(', ')})`);
 
 }
 
@@ -39,19 +39,19 @@ function remove(queryObject, databaseObject) {
 
     if (queryObject.where == undefined) return "";
 
-    executeDatabaseQuery(`DELETE FROM ${databaseObject.name} WHERE ${processCondition(queryObject.where)}`);
+    return executeDatabaseQuery(`DELETE FROM ${databaseObject.name} WHERE ${processCondition(queryObject.where)}`);
 
 }
 
 function clear(queryObject, databaseObject) {
 
-    executeDatabaseQuery(`DELETE FROM ${databaseObject.name}`);
+    return executeDatabaseQuery(`DELETE FROM ${databaseObject.name}`);
 
 }
 
 function customQuery(customQueryText) {
 
-    executeDatabaseQuery(customQueryText);
+    return executeDatabaseQuery(customQueryText);
 
 }
 
