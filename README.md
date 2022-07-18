@@ -42,6 +42,19 @@ console.log(userData); // Logs the First User Object
 
 ```
 
+## Features
+
+Below is a list of features that Burm either currently has or will need in the not-too-distant future. These features are for user-happiness, performance, or long term benefit of the community.
+
+- [X] Defining Models and Doing CRUD Operations
+- [ ] Creating Relationships Between Tables
+- [ ] Middleware System (Similar to Express)
+- [ ] High Code Coverage
+- [ ] 100% Typescript Definitions for Typechecking
+- [X] Ability to Run Raw Queries
+- [ ] Promises/ Async Await
+- [ ] Query Pagination
+
 ## Agenda and Plan
 
 We want Burm to be the go-to ORM for Bun, but how are we going to do that? Well, let's start by laying out what the agenda is below.
@@ -55,6 +68,7 @@ We want Burm to be the go-to ORM for Bun, but how are we going to do that? Well,
     - MongoDB
     - CasandraDB
     - SQL Server
+    - CockroachDB
     - MariaDB
 3. Create database packages
     - There is no point in having database wrappers (which are used to generate the queries), if you do not have packages to actually connect to the database and run the queries. That is why for each database wrapper, we will also need a database package.
