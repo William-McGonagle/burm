@@ -1,5 +1,5 @@
 {
-  "version": "0.0.7",
+  "version": "0.0.9",
   "name": "burm",
   "description": "Burm is an object relational manager for Bun.",
   "main": "src/index.ts",
@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "bun-types": "^0.0.83"
-  }
+  },
+  "files": [
+    "src/**"
+  ]
 }
