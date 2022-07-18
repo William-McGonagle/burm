@@ -1,6 +1,8 @@
 import Sql from './databases/sql/index';
 import Sqlite from './databases/sqlite/index';
 
+import DataType from './dataType';
+
 let currentLanguage = "SQLITE";
 let factory = {};
 
@@ -8,23 +10,68 @@ function register(name, object) {
 
     let parameters = { };
 
+    parameters["id"] = {
+        type: DataType.INTEGER,
+        key: true,
+        primary: true,
+        default: null,
+        nullable: true,
+        onUpdate: () => { null },
+        onCreate: () => { null }
+    };
+
+    parameters["createdAt"] = {
+        type: DataType.DATETIME,
+        key: false,
+        primary: false,
+        default: null,
+        nullable: true,
+        onUpdate: () => { null },
+        onCreate: () => { null }
+    };
+
+    parameters["updatedAt"] = {
+        type: DataType.DATETIME,
+        key: false,
+        primary: false,
+        default: null,
+        nullable: true,
+        onUpdate: () => { null },
+        onCreate: () => { null }
+    };
+
     for (const key in object) {
         
         if (typeof object[key] == 'string') {
 
             parameters[key] = {
-                type: object[key]
+                type: object[key],
+                key: false,
+                primary: false,
+                default: null,
+                nullable: true,
+                onUpdate: () => { null },
+                onCreate: () => { null }
             };
 
         } else if (typeof object[key] == 'object') {
 
-            parameters[key] = object[key];
+            parameters[key] = { 
+                type: DataType.OBJECT,
+                key: false,
+                primary: false,
+                default: null,
+                nullable: true,
+                onUpdate: () => { null },
+                onCreate: () => { null },
+                ...object[key]
+            };
 
         }
 
     }
 
-    let intermediate = {
+    const intermediate = {
         name,
         hasParameter: function (paramName) {
 
@@ -61,9 +108,8 @@ function register(name, object) {
         hasMany: []
     }
 
-    initializeModel({}, intermediate);
-
     factory[name] = intermediate;
+    initializeModel({}, intermediate);
 
     return intermediate
 

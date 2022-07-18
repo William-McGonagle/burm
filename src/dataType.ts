@@ -1,35 +1,20 @@
-const TEXT = "TEXT";
-const INTEGER = "INTEGER";
-const BOOLEAN = "BOOL";
-const STRING = "STRING";
-const SMALLINT = "SMALLINT";
-const BIGINT = "BIGINT";
-const DECIMAL = "DECIMAL";
-const DATE = "DATE";
-const TIME = "TIME";
-const DATETIME = "DATETIME";
-const DATETIMEZONE = "DATETIMEZONE";
-const OBJECT = "OBJECT";
-const ARRAY = "ARRAY";
-const FLOAT = "FLOAT";
-const GUID = "GUID";
-const STREAM = "STREAM";
-
-export default {
-    TEXT,
-    INTEGER,
-    BOOLEAN,
-    STRING,
-    SMALLINT,
-    BIGINT,
-    DECIMAL,
-    DATE,
-    TIME,
-    DATETIME,
-    DATETIMEZONE,
-    OBJECT,
-    ARRAY,
-    FLOAT,
-    GUID,
-    STREAM,
+enum DataType {
+    TEXT = "TEXT",
+    INTEGER = "INTEGER",
+    BOOLEAN = "BOOLEAN",
+    STRING = "STRING",
+    SMALLINT = "SMALLINT",
+    BIGINT = "BIGINT",
+    DECIMAL = "DECIMAL",
+    DATE = "DATE",
+    TIME = "TIME",
+    DATETIME = "DATETIME",
+    DATETIMEZONE = "DATETIMEZONE",
+    OBJECT = "OBJECT",
+    ARRAY = "ARRAY",
+    FLOAT = "FLOAT",
+    GUID = "GUID",
+    STREAM = "STREAM"
 }
+
+export default DataType;

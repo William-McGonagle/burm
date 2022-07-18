@@ -3,13 +3,19 @@ import executeDatabaseQuery from "./executor";
 
 function initializeModel(queryObject, databaseObject) {
 
-    let parameters = [
-        `id INT PRIMARY KEY`
-    ];
+    let parameters = [ ];
 
     for (const key in databaseObject.parameters) {
-        
-        parameters.push(`${key} ${databaseObject.parameters[key].type}`);
+
+        // console.log(databaseObject.parameter[key]);
+        let current = databaseObject.parameters[key];
+
+        let attribs = [
+            (current.primary !== undefined && current.primary) ? "PRIMARY" : undefined,
+            (current.key !== undefined && current.key) ? "KEY" : undefined
+        ];
+
+        parameters.push(`${key} ${current.type} ${attribs.join(' ')}`.trim());
 
     }
 
