@@ -6,6 +6,7 @@
 ![GitHub followers](https://img.shields.io/github/followers/william-mcgonagle?color=red)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/fairfield-programming?color=orange)
 ![GitHub top language](https://img.shields.io/github/languages/top/william-mcgonagle/burm?color=purple)
+[![Discord](https://img.shields.io/discord/928056769983447090)](https://discord.gg/qtu2MXGhcf)
 
 Burm is an object relational manager for [Bun](https://bun.sh/), the fastest Javascript Engine. The name is a merge of "Bun" and "ORM", forming "Burm". Pronounce it however you would like, we really don't care. Also, the project is licensed under the MIT license and managed by the Fairfield Programming Association. This means you can do whatever you want with it while still knowing it's not going anywhere.
 
