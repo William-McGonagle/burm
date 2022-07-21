@@ -1,6 +1,5 @@
 import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
-import { IntermediateProps } from "./types/Intermediate";
 import { ParameterProps } from "./types/Parameter";
 
 function register(name, object) {
