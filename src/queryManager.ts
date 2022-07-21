@@ -1,9 +1,7 @@
-import Sql from "./databases/sql/index";
 import Sqlite from "./databases/sqlite/index";
 import { DataType } from "./index";
 import { ParameterProps } from "./types/Parameter";
 
-let currentLanguage = "SQLITE";
 let factory = {};
 
 function register(name, object) {
@@ -122,45 +120,31 @@ function localObjectCleanser(instanceObject) {
 }
 
 function customQuery(customQueryText) {
-  if (currentLanguage == "SQLITE") return Sqlite.customQuery(customQueryText);
-  if (currentLanguage == "SQL") return Sql.customQuery(customQueryText);
+  return Sqlite.customQuery(customQueryText);
 }
 
 function initializeModel(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.initializeModel(queryObject, databaseObject);
-  if (currentLanguage == "SQL")
-    return Sql.initializeModel(queryObject, databaseObject);
+  return Sqlite.initializeModel(queryObject, databaseObject);
 }
 
 function findOne(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.findOne(queryObject, databaseObject);
-  if (currentLanguage == "SQL") return Sql.findOne(queryObject, databaseObject);
+  return Sqlite.findOne(queryObject, databaseObject);
 }
 
 function findAll(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.findAll(queryObject, databaseObject);
-  if (currentLanguage == "SQL") return Sql.findAll(queryObject, databaseObject);
+  return Sqlite.findAll(queryObject, databaseObject);
 }
 
 function create(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.create(queryObject, databaseObject);
-  if (currentLanguage == "SQL") return Sql.create(queryObject, databaseObject);
+  return Sqlite.create(queryObject, databaseObject);
 }
 
 function remove(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.remove(queryObject, databaseObject);
-  if (currentLanguage == "SQL") return Sql.remove(queryObject, databaseObject);
+  return Sqlite.remove(queryObject, databaseObject);
 }
 
 function clear(queryObject, databaseObject) {
-  if (currentLanguage == "SQLITE")
-    return Sqlite.clear(queryObject, databaseObject);
-  if (currentLanguage == "SQL") return Sql.clear(queryObject, databaseObject);
+  return Sqlite.clear(queryObject, databaseObject);
 }
 
 export default {
