@@ -5,7 +5,6 @@ function initializeModel(queryObject, databaseObject) {
   let parameters = [];
 
   for (const key in databaseObject.parameters) {
-    // console.log(databaseObject.parameter[key]);
     let current = databaseObject.parameters[key];
 
     let attribs = [
