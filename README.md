@@ -28,15 +28,15 @@ Below is some starter code that you can use to get burm included in your project
 
 ```javascript
 
-import Burm, { Datatype, Condition } from "burm";
+import Burm, { DataType, Condition } from "burm";
 
 const User = Burm.register("User", {
-    firstname: Datatype.STRING,
-    lastname: Datatype.STRING
+    firstname: DataType.STRING,
+    lastname: DataType.STRING
 })
 
 const userData = User.findOne({
-    where: Condition.Equals("id", 1)
+    where: Condition.equals("id", 1)
 })
 
 console.log(userData); // Logs the First User Object
