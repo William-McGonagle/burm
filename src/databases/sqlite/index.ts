@@ -1,20 +1,18 @@
+import { IntermediateProps } from "../../types/Intermediate";
 import processCondition from "./condition";
-import executeDatabaseQuery from "./executor";
+import { executeDatabaseQuery } from "./executor";
 
-function initializeModel(queryObject, databaseObject) {
+function initializeModel(databaseObject: IntermediateProps) {
   let parameters = [];
 
-  for (const key in databaseObject.parameters) {
-    // console.log(databaseObject.parameter[key]);
-    let current = databaseObject.parameters[key];
-
+  [...databaseObject.parameters.keys()].map(k => {
+    let current = databaseObject.parameters.get(k);
     let attribs = [
       current.primary !== undefined && current.primary ? "PRIMARY" : undefined,
       current.key !== undefined && current.key ? "KEY" : undefined,
     ];
-
-    parameters.push(`${key} ${current.type} ${attribs.join(" ")}`.trim());
-  }
+    parameters.push(`${k} ${current.type} ${attribs.join(" ")}`.trim());
+  });
 
   return executeDatabaseQuery(
     `CREATE TABLE IF NOT EXISTS ${databaseObject.name} (${parameters.join(

@@ -1,8 +1,6 @@
-import Sqlite from "./databases/sqlite/index";
+import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
 import { ParameterProps } from "./types/Parameter";
-
-let factory = {};
 
 function register(name, object) {
   let parameters = new Map<string, ParameterProps>();
@@ -13,12 +11,8 @@ function register(name, object) {
     primary: true,
     default: null,
     nullable: true,
-    onUpdate: () => {
-      null;
-    },
-    onCreate: () => {
-      null;
-    },
+    onUpdate: () => null,
+    onCreate: () => null,
   });
 
   parameters.set("createdAt", {
@@ -27,12 +21,8 @@ function register(name, object) {
     primary: false,
     default: null,
     nullable: true,
-    onUpdate: () => {
-      null;
-    },
-    onCreate: () => {
-      null;
-    },
+    onUpdate: () => null,
+    onCreate: () => null,
   });
 
   parameters.set("updatedAt", {
@@ -41,12 +31,8 @@ function register(name, object) {
     primary: false,
     default: null,
     nullable: true,
-    onUpdate: () => {
-      null;
-    },
-    onCreate: () => {
-      null;
-    },
+    onUpdate: () => null,
+    onCreate: () => null,
   });
 
   for (const key in object) {
@@ -57,12 +43,8 @@ function register(name, object) {
         primary: false,
         default: null,
         nullable: true,
-        onUpdate: () => {
-          null;
-        },
-        onCreate: () => {
-          null;
-        },
+        onUpdate: () => null,
+        onCreate: () => null,
       });
     } else if (typeof object[key] == "object") {
       parameters.set(key, {
@@ -71,12 +53,8 @@ function register(name, object) {
         primary: false,
         default: null,
         nullable: true,
-        onUpdate: () => {
-          null;
-        },
-        onCreate: () => {
-          null;
-        },
+        onUpdate: () => null,
+        onCreate: () => null,
         ...object[key],
       });
     }
@@ -107,45 +85,27 @@ function register(name, object) {
     hasMany: [],
   };
 
-  factory[name] = intermediate;
-  initializeModel({}, intermediate);
+  Sqlite.initializeModel(intermediate);
 
   return intermediate;
 }
 
-function localObjectCleanser(instanceObject) {
-  return {
-    ...instanceObject,
-  };
-}
+const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
 
-function customQuery(customQueryText) {
-  return Sqlite.customQuery(customQueryText);
-}
+const findOne = (queryObject, databaseObject) =>
+  Sqlite.findOne(queryObject, databaseObject);
 
-function initializeModel(queryObject, databaseObject) {
-  return Sqlite.initializeModel(queryObject, databaseObject);
-}
+const findAll = (queryObject, databaseObject) =>
+  Sqlite.findAll(queryObject, databaseObject);
 
-function findOne(queryObject, databaseObject) {
-  return Sqlite.findOne(queryObject, databaseObject);
-}
+const create = (queryObject, databaseObject) =>
+  Sqlite.create(queryObject, databaseObject);
 
-function findAll(queryObject, databaseObject) {
-  return Sqlite.findAll(queryObject, databaseObject);
-}
+const remove = (queryObject, databaseObject) =>
+  Sqlite.remove(queryObject, databaseObject);
 
-function create(queryObject, databaseObject) {
-  return Sqlite.create(queryObject, databaseObject);
-}
-
-function remove(queryObject, databaseObject) {
-  return Sqlite.remove(queryObject, databaseObject);
-}
-
-function clear(queryObject, databaseObject) {
-  return Sqlite.clear(queryObject, databaseObject);
-}
+const clear = (queryObject, databaseObject) =>
+  Sqlite.clear(queryObject, databaseObject);
 
 export default {
   register,
