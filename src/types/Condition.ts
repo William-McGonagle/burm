@@ -19,6 +19,6 @@ export enum ConditionType {
  */
 export interface ConditionProps {
   type: ConditionType;
-  parameter: any;
-  value: any;
+  parameter: ConditionProps | string;
+  value: ConditionProps | any;
 }
