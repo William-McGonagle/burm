@@ -1,4 +1,4 @@
-import { IntermediateProps } from "../../types/Intermediate";
+import { IntermediateProps } from "../../types/Model";
 import processCondition from "./condition";
 import { executeDatabaseQuery } from "./executor";
 
