@@ -1,7 +1,7 @@
 import { ParameterProps } from "./Parameter";
 import { FindOneQuery, FindAllQuery } from "./QueryTypes";
 
-export interface IntermediateProps {
+export interface ModelProps {
   name: string;
   hasParameter: (parameter: string) => boolean;
   findOne: (query: FindOneQuery) => any;

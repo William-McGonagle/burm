@@ -1,8 +1,9 @@
+import { ModelProps } from "./types/Model";
 import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
 import { ParameterProps } from "./types/Parameter";
 
-function register(name, object) {
+function register<Type>(name, object):ModelProps & Type {
   let parameters = new Map<string, ParameterProps>();
 
   parameters.set("id", {
