@@ -1,4 +1,4 @@
-import { describe, it } from "bun:test";
+import { expect, describe, it } from "bun:test";
 import Burm, { Condition, DataType } from "../src";
 
 describe("Setting Up Models", () => {
@@ -25,6 +25,9 @@ describe("Setting Up Models", () => {
         "William"
       )
     });
+
+    expect(aData.firstname).toBe(bData.firstname);
+    expect(aData.lastname).toBe(bData.lastname);
   
   });
 
