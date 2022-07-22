@@ -1,6 +1,6 @@
-import { ModelProps } from "./types/Model";
 import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
+import { ModelProps } from "./types/Model";
 import { ParameterProps } from "./types/Parameter";
 
 function register<Type>(name, object):ModelProps & Type {

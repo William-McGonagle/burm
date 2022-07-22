@@ -1,8 +1,8 @@
-import { IntermediateProps } from "../../types/Model";
+import { ModelProps } from "../../types/Model";
 import processCondition from "./condition";
 import { executeDatabaseQuery } from "./executor";
 
-function initializeModel(databaseObject: IntermediateProps) {
+function initializeModel(databaseObject: ModelProps) {
   let parameters = [];
 
   [...databaseObject.parameters.keys()].map(k => {

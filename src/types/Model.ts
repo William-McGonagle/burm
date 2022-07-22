@@ -6,9 +6,9 @@ export interface ModelProps {
   hasParameter: (parameter: string) => boolean;
   findOne: (query: FindOneQuery) => any;
   findAll: (query: FindAllQuery) => void;
-  create: (query: string) => void;
-  remove: (query: string) => void;
-  clear: (query: string) => void;
+  create: (query: any) => void;
+  remove: (query: any) => void;
+  clear: (query: any) => void;
   parameters: Map<string, ParameterProps>;
   belongsTo: any[];
   hasMany: any[];

@@ -1,7 +1,7 @@
 import { ConditionProps, ConditionType } from "../../types/Condition";
 
 export default function processCondition(
-  condition: ConditionProps
+  condition: ConditionProps | any
 ): ConditionProps | string {
   switch (condition.type) {
     case ConditionType.EQUALS:
