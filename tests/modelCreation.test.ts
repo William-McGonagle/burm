@@ -14,11 +14,18 @@ describe("Setting Up Models", () => {
       lastname: DataType.STRING
     })
 
-    const userData = User.create({
+    const aData = User.create({
       firstname: "William",
       lastname: "McGonagle"
     })
 
+    const bData = User.findOne({
+      where: Condition.equals(
+        "firstname",
+        "William"
+      )
+    });
+  
   });
 
   it("should allow for models without type annotations", () => {

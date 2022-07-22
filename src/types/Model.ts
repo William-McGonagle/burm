@@ -1,14 +1,14 @@
 import { ParameterProps } from "./Parameter";
 import { FindOneQuery, FindAllQuery } from "./QueryTypes";
 
-export interface ModelProps {
+export interface ModelProps<Type> {
   name: string;
   hasParameter: (parameter: string) => boolean;
-  findOne: (query: FindOneQuery) => any;
-  findAll: (query: FindAllQuery) => void;
-  create: (query: any) => void;
-  remove: (query: any) => void;
-  clear: (query: any) => void;
+  findOne: (query: FindOneQuery) => Type;
+  findAll: (query: FindAllQuery) => Type[];
+  create: (query: Type) => Type;
+  remove: (query: FindOneQuery) => Type;
+  clear: () => Type;
   parameters: Map<string, ParameterProps>;
   belongsTo: any[];
   hasMany: any[];

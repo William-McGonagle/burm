@@ -3,7 +3,7 @@ import { DataType } from "./index";
 import { ModelProps } from "./types/Model";
 import { ParameterProps } from "./types/Parameter";
 
-function register<Type>(name, object):ModelProps & Type {
+function register<Type>(name, object):ModelProps<Type> {
   let parameters = new Map<string, ParameterProps>();
 
   parameters.set("id", {
@@ -61,25 +61,25 @@ function register<Type>(name, object):ModelProps & Type {
     }
   }
 
-  const intermediate = {
+  const intermediate:ModelProps<Type> = {
     name,
     hasParameter: function (paramName) {
       return this.parameters.has(paramName);
     },
-    findOne: function (query) {
-      return findOne(query, this);
+    findOne: function (query):Type {
+      return findOne<Type>(query, this);
     },
-    findAll: function (query) {
-      return findAll(query, this);
+    findAll: function (query):Type[] {
+      return findAll<Type>(query, this);
     },
-    create: function (query) {
-      return create(query, this);
+    create: function (query):Type {
+      return create<Type>(query, this);
     },
-    remove: function (query) {
-      return remove(query, this);
+    remove: function (query):Type {
+      return remove<Type>(query, this);
     },
-    clear: function (query) {
-      return clear(query, this);
+    clear: function ():Type {
+      return clear<Type>({}, this);
     },
     parameters,
     belongsTo: [],
@@ -93,20 +93,25 @@ function register<Type>(name, object):ModelProps & Type {
 
 const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
 
-const findOne = (queryObject, databaseObject) =>
-  Sqlite.findOne(queryObject, databaseObject);
+function findOne<Type> (queryObject, databaseObject):Type {
+  return Sqlite.findOne(queryObject, databaseObject);
+}
 
-const findAll = (queryObject, databaseObject) =>
-  Sqlite.findAll(queryObject, databaseObject);
+function findAll<Type> (queryObject, databaseObject):Type[] {
+  return Sqlite.findAll(queryObject, databaseObject);
+}
 
-const create = (queryObject, databaseObject) =>
-  Sqlite.create(queryObject, databaseObject);
+function create<Type> (queryObject, databaseObject):Type {
+  return Sqlite.create(queryObject, databaseObject);
+}
 
-const remove = (queryObject, databaseObject) =>
-  Sqlite.remove(queryObject, databaseObject);
+function remove<Type> (queryObject, databaseObject):Type {
+  return Sqlite.remove(queryObject, databaseObject);
+}
 
-const clear = (queryObject, databaseObject) =>
-  Sqlite.clear(queryObject, databaseObject);
+function clear<Type> (queryObject, databaseObject):Type {
+  return Sqlite.clear(queryObject, databaseObject);
+}
 
 export default {
   register,
