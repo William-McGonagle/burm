@@ -54,7 +54,7 @@ expect(aData.lastname).toBe(bData.lastname);
 
 ### With Types
 
-```javascript
+```typescript
 
 interface UserModel {
   firstname: string;
