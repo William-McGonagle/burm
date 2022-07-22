@@ -26,20 +26,60 @@ npm i burm
 
 Below is some starter code that you can use to get burm included in your project. Burm allows for models to be created at runtime, procedural data generation for testing, and many other cool things you can check out in our documentation.
 
+### Without Types
+
 ```javascript
 
-import Burm, { Datatype, Condition } from "burm";
-
 const User = Burm.register("User", {
-    firstname: Datatype.STRING,
-    lastname: Datatype.STRING
+  firstname: DataType.STRING,
+  lastname: DataType.STRING
 })
 
-const userData = User.findOne({
-    where: Condition.Equals("id", 1)
+const aData = User.create({
+  firstname: "William",
+  lastname: "McGonagle"
 })
 
-console.log(userData); // Logs the First User Object
+const bData = User.findOne({
+  where: Condition.equals(
+    "firstname",
+    "William"
+  )
+})
+
+expect(aData.firstname).toBe(bData.firstname);
+expect(aData.lastname).toBe(bData.lastname);
+
+```
+
+### With Types
+
+```javascript
+
+interface UserModel {
+  firstname: string;
+  lastname: string;
+}
+
+const User = Burm.register<UserModel>("User", {
+  firstname: DataType.STRING,
+  lastname: DataType.STRING
+})
+
+const aData = User.create({
+  firstname: "William",
+  lastname: "McGonagle"
+})
+
+const bData = User.findOne({
+  where: Condition.equals(
+    "firstname",
+    "William"
+  )
+})
+
+expect(aData.firstname).toBe(bData.firstname);
+expect(aData.lastname).toBe(bData.lastname);
 
 ```
 
