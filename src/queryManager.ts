@@ -3,7 +3,7 @@ import { DataType } from "./index";
 import { ModelProps } from "./types/Model";
 import { ParameterProps } from "./types/Parameter";
 
-function register<Type>(name, object):ModelProps<Type> {
+function register<Type = any>(name, object):ModelProps<Type> {
   let parameters = new Map<string, ParameterProps>();
 
   parameters.set("id", {

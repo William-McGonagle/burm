@@ -24,7 +24,7 @@ describe("Setting Up Models", () => {
         "firstname",
         "William"
       )
-    });
+    })
 
     expect(aData.firstname).toBe(bData.firstname);
     expect(aData.lastname).toBe(bData.lastname);
@@ -38,10 +38,20 @@ describe("Setting Up Models", () => {
       lastname: DataType.STRING
     })
 
-    const userData = User.create({
+    const aData = User.create({
       firstname: "William",
       lastname: "McGonagle"
     })
 
+    const bData = User.findOne({
+      where: Condition.equals(
+        "firstname",
+        "William"
+      )
+    })
+
+    expect(aData.firstname).toBe(bData.firstname);
+    expect(aData.lastname).toBe(bData.lastname);
+    
   });
 });
