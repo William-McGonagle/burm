@@ -1,25 +1,35 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import { useState } from 'react'
 import '@fontsource/jetbrains-mono'
 import '@fontsource/merriweather'
 
 export default function Home({ documentation }) {
-	// console.log(documentation)
+	const [copyText, setCopyText] = useState('copy')
+
+	const copiedText = (e) => {
+		navigator.clipboard.writeText('npm i burm')
+		setCopyText('copied!')
+	}
+
 	return (
 		<>
 			<Head>
-				<title>Burm</title>
+				<title>{documentation.name}</title>
 				<meta name='description' content='Get started with burm' />
-				<link rel='icon' href='/images/svg/logo.svg' />
+				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<header>
 				<nav>
-					<h3 className='logo'>Burm</h3>
+					<h3 className='logo'>{documentation.name}</h3>
 					<ul>
 						<li>
 							<a href='#'>docs</a>
 						</li>
 						<li>
-							<a href='#'>github</a>
+							<Link href='https://github.com/William-McGonagle/burm'>
+								<a href='#'>github</a>
+							</Link>
 						</li>
 					</ul>
 				</nav>
@@ -32,7 +42,13 @@ export default function Home({ documentation }) {
 						To download the project from NPM, just use the command below. This
 						will include burm as one of your dependencies
 					</p>
-					<input className='copy-command' placeholder='> npm i burm' />
+					<button
+						className='copy-command'
+						data-copy-option={copyText}
+						onClick={copiedText}
+					>
+						&gt; npm i burm
+					</button>
 					<p>See on npm</p>
 				</div>
 			</main>
@@ -40,13 +56,13 @@ export default function Home({ documentation }) {
 	)
 }
 
-// export const getStaticProps = async () => {
-// 	const res = await fetch('https://registry.npmjs.com/burm/latest')
-// 	const data = await res.json()
+export const getStaticProps = async () => {
+	const res = await fetch('https://registry.npmjs.com/burm/latest')
+	const data = await res.json()
 
-// 	return {
-// 		props: {
-// 			documentation: data,
-// 		},
-// 	}
-// }
+	return {
+		props: {
+			documentation: data,
+		},
+	}
+}
