@@ -47,9 +47,6 @@ const bData = User.findOne({
   )
 })
 
-expect(aData.firstname).toBe(bData.firstname);
-expect(aData.lastname).toBe(bData.lastname);
-
 ```
 
 ### With Types
@@ -77,9 +74,6 @@ const bData = User.findOne({
     "William"
   )
 })
-
-expect(aData.firstname).toBe(bData.firstname);
-expect(aData.lastname).toBe(bData.lastname);
 
 ```
 
