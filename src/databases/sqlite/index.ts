@@ -2,7 +2,7 @@ import { ModelProps } from "../../types/Model";
 import processCondition from "./condition";
 import { executeDatabaseQuery } from "./executor";
 
-function initializeModel(databaseObject: ModelProps) {
+function initializeModel<Type>(databaseObject: ModelProps<Type>) {
   let parameters = [];
 
   [...databaseObject.parameters.keys()].map(k => {

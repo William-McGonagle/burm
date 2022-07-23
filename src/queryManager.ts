@@ -86,7 +86,7 @@ function register<Type = any>(name, object):ModelProps<Type> {
     hasMany: [],
   };
 
-  Sqlite.initializeModel(intermediate);
+  Sqlite.initializeModel<Type>(intermediate);
 
   return intermediate;
 }
