@@ -6,6 +6,7 @@
 ![GitHub followers](https://img.shields.io/github/followers/william-mcgonagle?color=red)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/fairfield-programming?color=orange)
 ![GitHub top language](https://img.shields.io/github/languages/top/william-mcgonagle/burm?color=purple)
+[![Discord](https://img.shields.io/discord/928056769983447090)](https://discord.gg/qtu2MXGhcf)
 
 Burm is an object relational manager for [Bun](https://bun.sh/), the fastest Javascript Engine. The name is a merge of "Bun" and "ORM", forming "Burm". Pronounce it however you would like, we really don't care. Also, the project is licensed under the MIT license and managed by the Fairfield Programming Association. This means you can do whatever you want with it while still knowing it's not going anywhere.
 
@@ -25,20 +26,60 @@ npm i burm
 
 Below is some starter code that you can use to get burm included in your project. Burm allows for models to be created at runtime, procedural data generation for testing, and many other cool things you can check out in our documentation.
 
+### Without Types
+
 ```javascript
 
-import Burm, { Datatype, Condition } from "burm";
-
 const User = Burm.register("User", {
-    firstname: Datatype.STRING,
-    lastname: Datatype.STRING
+  firstname: DataType.STRING,
+  lastname: DataType.STRING
 })
 
-const userData = User.findOne({
-    where: Condition.Equals("id", 1)
+const aData = User.create({
+  firstname: "William",
+  lastname: "McGonagle"
 })
 
-console.log(userData); // Logs the First User Object
+const bData = User.findOne({
+  where: Condition.equals(
+    "firstname",
+    "William"
+  )
+})
+
+expect(aData.firstname).toBe(bData.firstname);
+expect(aData.lastname).toBe(bData.lastname);
+
+```
+
+### With Types
+
+```typescript
+
+interface UserModel {
+  firstname: string;
+  lastname: string;
+}
+
+const User = Burm.register<UserModel>("User", {
+  firstname: DataType.STRING,
+  lastname: DataType.STRING
+})
+
+const aData = User.create({
+  firstname: "William",
+  lastname: "McGonagle"
+})
+
+const bData = User.findOne({
+  where: Condition.equals(
+    "firstname",
+    "William"
+  )
+})
+
+expect(aData.firstname).toBe(bData.firstname);
+expect(aData.lastname).toBe(bData.lastname);
 
 ```
 

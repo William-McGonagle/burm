@@ -1,179 +1,119 @@
-import Sql from './databases/sql/index';
-import Sqlite from './databases/sqlite/index';
+import Sqlite from "./databases/sqlite";
+import { DataType } from "./index";
+import { ModelProps } from "./types/Model";
+import { ParameterProps } from "./types/Parameter";
 
-import DataType from './dataType';
+function register<Type = any>(name, object):ModelProps<Type> {
+  let parameters = new Map<string, ParameterProps>();
 
-let currentLanguage = "SQLITE";
-let factory = {};
+  parameters.set("id", {
+    type: DataType.INTEGER,
+    key: true,
+    primary: true,
+    default: null,
+    nullable: true,
+    onUpdate: () => null,
+    onCreate: () => null,
+  });
 
-function register(name, object) {
+  parameters.set("createdAt", {
+    type: DataType.DATETIME,
+    key: false,
+    primary: false,
+    default: null,
+    nullable: true,
+    onUpdate: () => null,
+    onCreate: () => null,
+  });
 
-    let parameters = { };
+  parameters.set("updatedAt", {
+    type: DataType.DATETIME,
+    key: false,
+    primary: false,
+    default: null,
+    nullable: true,
+    onUpdate: () => null,
+    onCreate: () => null,
+  });
 
-    parameters["id"] = {
-        type: DataType.INTEGER,
-        key: true,
-        primary: true,
-        default: null,
-        nullable: true,
-        onUpdate: () => { null },
-        onCreate: () => { null }
-    };
-
-    parameters["createdAt"] = {
-        type: DataType.DATETIME,
+  for (const key in object) {
+    if (typeof object[key] == "string") {
+      parameters.set(key, {
+        type: object[key],
         key: false,
         primary: false,
         default: null,
         nullable: true,
-        onUpdate: () => { null },
-        onCreate: () => { null }
-    };
-
-    parameters["updatedAt"] = {
-        type: DataType.DATETIME,
+        onUpdate: () => null,
+        onCreate: () => null,
+      });
+    } else if (typeof object[key] == "object") {
+      parameters.set(key, {
+        type: DataType.OBJECT,
         key: false,
         primary: false,
         default: null,
         nullable: true,
-        onUpdate: () => { null },
-        onCreate: () => { null }
-    };
-
-    for (const key in object) {
-        
-        if (typeof object[key] == 'string') {
-
-            parameters[key] = {
-                type: object[key],
-                key: false,
-                primary: false,
-                default: null,
-                nullable: true,
-                onUpdate: () => { null },
-                onCreate: () => { null }
-            };
-
-        } else if (typeof object[key] == 'object') {
-
-            parameters[key] = { 
-                type: DataType.OBJECT,
-                key: false,
-                primary: false,
-                default: null,
-                nullable: true,
-                onUpdate: () => { null },
-                onCreate: () => { null },
-                ...object[key]
-            };
-
-        }
-
+        onUpdate: () => null,
+        onCreate: () => null,
+        ...object[key],
+      });
     }
+  }
 
-    const intermediate = {
-        name,
-        hasParameter: function (paramName) {
+  const intermediate:ModelProps<Type> = {
+    name,
+    hasParameter: function (paramName) {
+      return this.parameters.has(paramName);
+    },
+    findOne: function (query):Type {
+      return findOne<Type>(query, this);
+    },
+    findAll: function (query):Type[] {
+      return findAll<Type>(query, this);
+    },
+    create: function (query):Type {
+      return create<Type>(query, this);
+    },
+    remove: function (query):Type {
+      return remove<Type>(query, this);
+    },
+    clear: function ():Type {
+      return clear<Type>({}, this);
+    },
+    parameters,
+    belongsTo: [],
+    hasMany: [],
+  };
 
-            return this.parameters[paramName] !== undefined
-        
-        },
-        findOne: function (query) {
+  Sqlite.initializeModel<Type>(intermediate);
 
-            return findOne(query, this)
-
-        },
-        findAll: function (query) {
-
-            return findAll(query, this)
-
-        },
-        create: function (query) {
-
-            return create(query, this)
-
-        },
-        remove: function (query) {
-
-            return remove(query, this);
-
-        },
-        clear: function (query) {
-
-            return clear(query, this);
-
-        },
-        parameters,
-        belongsTo: [],
-        hasMany: []
-    }
-
-    factory[name] = intermediate;
-    initializeModel({}, intermediate);
-
-    return intermediate
-
+  return intermediate;
 }
 
-function localObjectCleanser(instanceObject) {
+const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
 
-    return {
-        ...instanceObject,
-
-    };
-
+function findOne<Type> (queryObject, databaseObject):Type {
+  return Sqlite.findOne(queryObject, databaseObject);
 }
 
-function customQuery(customQueryText) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.customQuery(customQueryText);
-    if (currentLanguage == "SQL")    return Sql.customQuery(customQueryText);
-
+function findAll<Type> (queryObject, databaseObject):Type[] {
+  return Sqlite.findAll(queryObject, databaseObject);
 }
 
-function initializeModel(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.initializeModel(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.initializeModel(queryObject, databaseObject);
-
+function create<Type> (queryObject, databaseObject):Type {
+  return Sqlite.create(queryObject, databaseObject);
 }
 
-function findOne(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.findOne(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.findOne(queryObject, databaseObject);
-
+function remove<Type> (queryObject, databaseObject):Type {
+  return Sqlite.remove(queryObject, databaseObject);
 }
 
-function findAll(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.findAll(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.findAll(queryObject, databaseObject);
-
-}
-
-function create(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.create(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.create(queryObject, databaseObject);
-
-}
-
-function remove(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.remove(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.remove(queryObject, databaseObject);
-        
-}
-
-function clear(queryObject, databaseObject) {
-
-    if (currentLanguage == "SQLITE") return Sqlite.clear(queryObject, databaseObject);
-    if (currentLanguage == "SQL")    return Sql.clear(queryObject, databaseObject);
-
+function clear<Type> (queryObject, databaseObject):Type {
+  return Sqlite.clear(queryObject, databaseObject);
 }
 
 export default {
-    register,
-    customQuery
+  register,
+  customQuery,
 };
