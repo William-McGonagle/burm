@@ -3,7 +3,34 @@ import { DataType } from "./index";
 import { ModelProps } from "./types/Model";
 import { ParameterProps } from "./types/Parameter";
 
-function register<Type = any>(name, object):ModelProps<Type> {
+type ModelSchemaTypes = {
+  TEXT: string;
+  INTEGER: number;
+  BOOLEAN: boolean;
+  STRING: string;
+  SMALLINT: number;
+  BIGINT: number;
+  DECIMAL: number;
+  DATE: string;
+  TIME: string;
+  DATETIME: string;
+  DATETIMEZONE: string;
+  OBJECT: Object;
+  ARRAY: Array<any>;
+  FLOAT: number;
+  GUID: string;
+  STREAM: string;
+};
+
+type ModelSchema<T extends Record<string, keyof ModelSchemaTypes>> = {
+  readonly [K in keyof T]: ModelSchemaTypes[T[K]];
+};
+
+// function asSchema<T extends Record<string, keyof ModelSchemaTypes>>(t: T): T {
+//   return t;
+// }
+
+function register(table: string, model: Record<string, DataType>) {
   let parameters = new Map<string, ParameterProps>();
 
   parameters.set("id", {
@@ -11,7 +38,7 @@ function register<Type = any>(name, object):ModelProps<Type> {
     key: true,
     primary: true,
     default: null,
-    nullable: true,
+    nullable: false,
     onUpdate: () => null,
     onCreate: () => null,
   });
@@ -20,7 +47,7 @@ function register<Type = any>(name, object):ModelProps<Type> {
     type: DataType.DATETIME,
     key: false,
     primary: false,
-    default: null,
+    default: "(datetime('now', 'localtime'))",
     nullable: true,
     onUpdate: () => null,
     onCreate: () => null,
@@ -30,24 +57,14 @@ function register<Type = any>(name, object):ModelProps<Type> {
     type: DataType.DATETIME,
     key: false,
     primary: false,
-    default: null,
+    default: "(datetime('now', 'localtime'))",
     nullable: true,
     onUpdate: () => null,
     onCreate: () => null,
   });
 
-  for (const key in object) {
-    if (typeof object[key] == "string") {
-      parameters.set(key, {
-        type: object[key],
-        key: false,
-        primary: false,
-        default: null,
-        nullable: true,
-        onUpdate: () => null,
-        onCreate: () => null,
-      });
-    } else if (typeof object[key] == "object") {
+  for (const key in model) {
+    if (model[key] === DataType.OBJECT) {
       parameters.set(key, {
         type: DataType.OBJECT,
         key: false,
@@ -56,60 +73,77 @@ function register<Type = any>(name, object):ModelProps<Type> {
         nullable: true,
         onUpdate: () => null,
         onCreate: () => null,
-        ...object[key],
       });
+      continue;
     }
+
+    parameters.set(key, {
+      type: model[key],
+      key: false,
+      primary: false,
+      default: null,
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
+    });
   }
 
-  const intermediate:ModelProps<Type> = {
-    name,
+  const _model = {} as const;
+  for (const [key, value] of parameters) {
+    _model[key] = value.type;
+  }
+
+  type Model = ModelSchema<typeof _model>;
+
+  const intermediate: ModelProps<Model> = {
+    table,
     hasParameter: function (paramName) {
       return this.parameters.has(paramName);
     },
-    findOne: function (query):Type {
-      return findOne<Type>(query, this);
+    findOne: function (query) {
+      return findOne(query, this);
     },
-    findAll: function (query):Type[] {
-      return findAll<Type>(query, this);
+    findAll: function (query) {
+      return findAll(query, this);
     },
-    create: function (query):Type {
-      return create<Type>(query, this);
+    create: function (query) {
+      return create(query, this);
     },
-    remove: function (query):Type {
-      return remove<Type>(query, this);
+    remove: function (query) {
+      return remove(query, this);
     },
-    clear: function ():Type {
-      return clear<Type>({}, this);
+    clear: function () {
+      return clear({}, this);
     },
     parameters,
     belongsTo: [],
     hasMany: [],
   };
 
-  Sqlite.initializeModel<Type>(intermediate);
+  Sqlite.initializeModel<Model>(intermediate);
 
   return intermediate;
 }
 
 const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
 
-function findOne<Type> (queryObject, databaseObject):Type {
+const findOne = (queryObject, databaseObject) => {
   return Sqlite.findOne(queryObject, databaseObject);
-}
+};
 
-function findAll<Type> (queryObject, databaseObject):Type[] {
+function findAll(queryObject, databaseObject) {
   return Sqlite.findAll(queryObject, databaseObject);
 }
 
-function create<Type> (queryObject, databaseObject):Type {
+function create(queryObject, databaseObject) {
   return Sqlite.create(queryObject, databaseObject);
 }
 
-function remove<Type> (queryObject, databaseObject):Type {
+function remove(queryObject, databaseObject) {
   return Sqlite.remove(queryObject, databaseObject);
 }
 
-function clear<Type> (queryObject, databaseObject):Type {
+function clear(queryObject, databaseObject) {
   return Sqlite.clear(queryObject, databaseObject);
 }
 

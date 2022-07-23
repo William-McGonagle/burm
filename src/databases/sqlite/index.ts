@@ -3,19 +3,21 @@ import processCondition from "./condition";
 import { executeDatabaseQuery } from "./executor";
 
 function initializeModel<Type>(databaseObject: ModelProps<Type>) {
-  let parameters = [];
+  let parameters: string[] = [];
 
-  [...databaseObject.parameters.keys()].map(k => {
-    let current = databaseObject.parameters.get(k);
+  for (let key of databaseObject.parameters.keys()) {
+    let current = databaseObject.parameters.get(key);
+
     let attribs = [
       current.primary !== undefined && current.primary ? "PRIMARY" : undefined,
       current.key !== undefined && current.key ? "KEY" : undefined,
+      current.default !== null ? `DEFAULT ${current.default}` : undefined,
     ];
-    parameters.push(`${k} ${current.type} ${attribs.join(" ")}`.trim());
-  });
+    parameters.push(`${key} ${current.type} ${attribs.join(" ")}`.trim());
+  }
 
   return executeDatabaseQuery(
-    `CREATE TABLE IF NOT EXISTS ${databaseObject.name} (${parameters.join(
+    `CREATE TABLE IF NOT EXISTS ${databaseObject.table} (${parameters.join(
       ", "
     )});`
   );
@@ -23,20 +25,18 @@ function initializeModel<Type>(databaseObject: ModelProps<Type>) {
 
 function findOne(queryObject, databaseObject) {
   return executeDatabaseQuery(
-    `SELECT * FROM ${databaseObject.name}${
-      queryObject.where !== undefined
-        ? ` WHERE ${processCondition(queryObject.where)}`
-        : ""
-    } LIMIT 1;`
+    `SELECT * FROM ${databaseObject.table} ${
+      queryObject?.where !== undefined &&
+      `WHERE ${processCondition(queryObject.where)}`
+    } ORDER BY id ASC LIMIT 1;`
   );
 }
 
 function findAll(queryObject, databaseObject) {
   return executeDatabaseQuery(
-    `SELECT * FROM ${databaseObject.name}${
-      queryObject.where !== undefined
-        ? ` WHERE ${processCondition(queryObject.where)}`
-        : ""
+    `SELECT * FROM ${databaseObject.table} ${
+      queryObject?.where !== undefined &&
+      `WHERE ${processCondition(queryObject.where)}`
     };`
   );
 }
@@ -45,13 +45,13 @@ function create(queryObject, databaseObject) {
   let params: Array<string> = [];
   let values: Array<string> = [];
 
-  for (const key in queryObject) {
+  for (const [key, value] of Object.entries(queryObject)) {
     params.push(key);
-    values.push(`"${queryObject[key]}"`);
+    values.push(`"${value}"`);
   }
 
   return executeDatabaseQuery(
-    `INSERT INTO ${databaseObject.name}(${params.join(
+    `INSERT INTO ${databaseObject.table} (${params.join(
       ", "
     )}) VALUES (${values.join(", ")});`
   );
@@ -61,14 +61,14 @@ function remove(queryObject, databaseObject) {
   if (queryObject.where == undefined) return {};
 
   return executeDatabaseQuery(
-    `DELETE FROM ${databaseObject.name} WHERE ${processCondition(
+    `DELETE FROM ${databaseObject.table} WHERE ${processCondition(
       queryObject.where
     )};`
   );
 }
 
 function clear(queryObject, databaseObject) {
-  return executeDatabaseQuery(`DELETE FROM ${databaseObject.name};`);
+  return executeDatabaseQuery(`DELETE FROM ${databaseObject.table};`);
 }
 
 function customQuery(customQueryText) {
