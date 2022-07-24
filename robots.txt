@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://william-mcgonagle.github.io/burm/sitemap.xml
