@@ -22,4 +22,4 @@ jobs:
       - run: npm install
       - run: npm install next react react-dom
       - run: npm i bun-doc -g
-      - run: bun-doc build; next build && next export; mv ./out ./docs
+      - run: bun-doc build; npx next build && npx next export; mv ./out ./docs
