@@ -21,6 +21,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm install next react react-dom
-      - run: npm install --save-dev typescript @types/react @types/node
+      - run: rm tsconfig.json
       - run: npm i bun-doc -g
       - run: bun-doc build; npx next build && npx next export; mv ./out ./docs
