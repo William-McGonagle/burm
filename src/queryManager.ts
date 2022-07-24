@@ -2,29 +2,7 @@ import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
 import { ColumnProps } from "./types/Column";
 import { ModelProps } from "./types/Model";
-
-type ModelSchemaTypes = {
-  TEXT: string;
-  INTEGER: number;
-  BOOLEAN: boolean;
-  STRING: string;
-  SMALLINT: number;
-  BIGINT: number;
-  DECIMAL: number;
-  DATE: string;
-  TIME: string;
-  DATETIME: string;
-  DATETIMEZONE: string;
-  OBJECT: Object;
-  ARRAY: Array<any>;
-  FLOAT: number;
-  GUID: string;
-  STREAM: string;
-};
-
-type ModelSchema<T extends Record<string, keyof ModelSchemaTypes>> = {
-  readonly [K in keyof T]?: ModelSchemaTypes[T[K]];
-};
+import { ModelSchema } from "./types/ModelSchema";
 
 function register(table: string, model: Record<string, DataType>) {
   let columns: Array<ColumnProps> = new Array();
