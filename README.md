@@ -1,4 +1,4 @@
-# ![Burm](https://raw.githubusercontent.com/William-McGonagle/burm/master/.github/media/cover.svg)
+# [![Burm](https://raw.githubusercontent.com/William-McGonagle/burm/master/.github/media/cover.svg)](https://william-mcgonagle.github.io/burm)
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/william-mcgonagle/burm)
 ![GitHub issues](https://img.shields.io/github/issues/william-mcgonagle/burm)
@@ -47,9 +47,6 @@ const bData = User.findOne({
   )
 })
 
-expect(aData.firstname).toBe(bData.firstname);
-expect(aData.lastname).toBe(bData.lastname);
-
 ```
 
 ### With Types
@@ -77,9 +74,6 @@ const bData = User.findOne({
     "William"
   )
 })
-
-expect(aData.firstname).toBe(bData.firstname);
-expect(aData.lastname).toBe(bData.lastname);
 
 ```
 
