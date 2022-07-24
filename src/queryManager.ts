@@ -1,7 +1,7 @@
 import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
+import { ColumnProps } from "./types/Column";
 import { ModelProps } from "./types/Model";
-import { ParameterProps } from "./types/Parameter";
 
 type ModelSchemaTypes = {
   TEXT: string;
@@ -23,65 +23,54 @@ type ModelSchemaTypes = {
 };
 
 type ModelSchema<T extends Record<string, keyof ModelSchemaTypes>> = {
-  readonly [K in keyof T]: ModelSchemaTypes[T[K]];
+  readonly [K in keyof T]?: ModelSchemaTypes[T[K]];
 };
 
-// function asSchema<T extends Record<string, keyof ModelSchemaTypes>>(t: T): T {
-//   return t;
-// }
-
 function register(table: string, model: Record<string, DataType>) {
-  let parameters = new Map<string, ParameterProps>();
+  let columns: Array<ColumnProps> = new Array();
 
-  parameters.set("id", {
-    type: DataType.INTEGER,
-    key: true,
-    primary: true,
-    default: null,
-    nullable: false,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
-
-  parameters.set("createdAt", {
-    type: DataType.DATETIME,
-    key: false,
-    primary: false,
-    default: "(datetime('now', 'localtime'))",
-    nullable: true,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
-
-  parameters.set("updatedAt", {
-    type: DataType.DATETIME,
-    key: false,
-    primary: false,
-    default: "(datetime('now', 'localtime'))",
-    nullable: true,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
+  columns.push(
+    {
+      field: "id",
+      type: DataType.INTEGER,
+      key: true,
+      primary: true,
+      default: undefined,
+      nullable: false,
+      onUpdate: () => null,
+      onCreate: () => null,
+    },
+    {
+      field: "createdAt",
+      type: DataType.DATETIME,
+      key: false,
+      primary: false,
+      default: "(datetime('now', 'localtime'))",
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
+    },
+    {
+      field: "updatedAt",
+      type: DataType.DATETIME,
+      key: false,
+      primary: false,
+      default: "(datetime('now', 'localtime'))",
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
+    }
+  );
 
   for (const key in model) {
-    if (model[key] === DataType.OBJECT) {
-      parameters.set(key, {
-        type: DataType.OBJECT,
-        key: false,
-        primary: false,
-        default: null,
-        nullable: true,
-        onUpdate: () => null,
-        onCreate: () => null,
-      });
-      continue;
-    }
+    // TODO: model is DataType.OBJECT
 
-    parameters.set(key, {
+    columns.push({
+      field: key,
       type: model[key],
       key: false,
       primary: false,
-      default: null,
+      default: undefined,
       nullable: true,
       onUpdate: () => null,
       onCreate: () => null,
@@ -89,10 +78,9 @@ function register(table: string, model: Record<string, DataType>) {
   }
 
   const _model = {} as const;
-  for (const [key, value] of parameters) {
-    _model[key] = value.type;
-  }
-
+  // columns.forEach(c => {
+  //   _model[c.field] = c.type;
+  // });
   type Model = ModelSchema<typeof _model>;
 
   const intermediate: ModelProps<Model> = {
@@ -101,23 +89,23 @@ function register(table: string, model: Record<string, DataType>) {
       return this.parameters.has(paramName);
     },
     findOne: function (query) {
-      return findOne(query, this);
+      return Sqlite.findOne(query, this);
     },
     findAll: function (query) {
-      return findAll(query, this);
+      return Sqlite.findAll(query, this);
     },
     create: function (query) {
-      return create(query, this);
+      return Sqlite.create(query, this);
     },
     remove: function (query) {
-      return remove(query, this);
+      return Sqlite.remove(query, this);
     },
     clear: function () {
-      return clear({}, this);
+      return Sqlite.clear(this);
     },
-    parameters,
-    belongsTo: [],
-    hasMany: [],
+    columns,
+    belongsTo: new Array(),
+    hasMany: new Array(),
   };
 
   Sqlite.initializeModel<Model>(intermediate);
@@ -125,29 +113,6 @@ function register(table: string, model: Record<string, DataType>) {
   return intermediate;
 }
 
-const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
-
-const findOne = (queryObject, databaseObject) => {
-  return Sqlite.findOne(queryObject, databaseObject);
-};
-
-function findAll(queryObject, databaseObject) {
-  return Sqlite.findAll(queryObject, databaseObject);
-}
-
-function create(queryObject, databaseObject) {
-  return Sqlite.create(queryObject, databaseObject);
-}
-
-function remove(queryObject, databaseObject) {
-  return Sqlite.remove(queryObject, databaseObject);
-}
-
-function clear(queryObject, databaseObject) {
-  return Sqlite.clear(queryObject, databaseObject);
-}
-
 export default {
   register,
-  customQuery,
 };

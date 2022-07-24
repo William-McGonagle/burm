@@ -5,16 +5,14 @@ import { executeDatabaseQuery } from "./executor";
 function initializeModel<Type>(databaseObject: ModelProps<Type>) {
   let parameters: string[] = [];
 
-  for (let key of databaseObject.parameters.keys()) {
-    let current = databaseObject.parameters.get(key);
-
+  databaseObject.columns.map(p => {
     let attribs = [
-      current.primary !== undefined && current.primary ? "PRIMARY" : undefined,
-      current.key !== undefined && current.key ? "KEY" : undefined,
-      current.default !== null ? `DEFAULT ${current.default}` : undefined,
+      p.primary !== undefined && p.primary ? "PRIMARY" : undefined,
+      p.key !== undefined && p.key ? "KEY" : undefined,
+      p.default !== undefined ? `DEFAULT ${p.default}` : undefined,
     ];
-    parameters.push(`${key} ${current.type} ${attribs.join(" ")}`.trim());
-  }
+    parameters.push(`${p.field} ${p.type} ${attribs.join(" ")}`);
+  });
 
   return executeDatabaseQuery(
     `CREATE TABLE IF NOT EXISTS ${databaseObject.table} (${parameters.join(
@@ -41,33 +39,30 @@ function findAll(queryObject, databaseObject) {
   );
 }
 
+/**
+ * TOOD: should return the newly created row
+ * current behaviour: returns 0
+ */
 function create(queryObject, databaseObject) {
-  let params: Array<string> = [];
-  let values: Array<string> = [];
-
-  for (const [key, value] of Object.entries(queryObject)) {
-    params.push(key);
-    values.push(`"${value}"`);
-  }
-
   return executeDatabaseQuery(
-    `INSERT INTO ${databaseObject.table} (${params.join(
+    `INSERT INTO ${databaseObject.table} (${Object.keys(queryObject).join(
       ", "
-    )}) VALUES (${values.join(", ")});`
+    )}) VALUES (${Object.values(queryObject)
+      .map(k => `"${k}"`)
+      .join(", ")});`
   );
 }
 
 function remove(queryObject, databaseObject) {
-  if (queryObject.where == undefined) return {};
-
   return executeDatabaseQuery(
-    `DELETE FROM ${databaseObject.table} WHERE ${processCondition(
-      queryObject.where
-    )};`
+    `DELETE FROM ${databaseObject.table} ${
+      queryObject?.where !== undefined &&
+      `WHERE ${processCondition(queryObject.where)}`
+    };`
   );
 }
 
-function clear(queryObject, databaseObject) {
+function clear(databaseObject) {
   return executeDatabaseQuery(`DELETE FROM ${databaseObject.table};`);
 }
 
