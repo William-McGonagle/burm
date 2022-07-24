@@ -1,9 +1,9 @@
 import { ConditionProps } from "./Condition";
 
 export interface FindOneQuery {
-    where: ConditionProps;
+  where: ConditionProps;
 }
 
 export interface FindAllQuery {
-    where: ConditionProps;
+  where: ConditionProps;
 }
