@@ -24,3 +24,4 @@ jobs:
       - run: rm tsconfig.json
       - run: npm i bun-doc -g
       - run: bun-doc build; npx next build && npx next export; mv ./out ./docs
+      - run: git add ./docs; git commit -m "Built Documentation"; git push;
