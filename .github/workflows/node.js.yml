@@ -2,7 +2,7 @@ name: Generate Documentation Website
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, main ]
 
 jobs:
   build:
@@ -19,10 +19,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm install next react react-dom
-      - run: rm tsconfig.json
-      - run: npm i bun-doc -g
-      - run: rm -r ./docs
-      - run: bun-doc build; npx next build && npx next export; mv ./out ./docs
-      - run: git config user.name github-actions; git config user.email github-actions@github.com; git add ./docs; git commit -m "Built Documentation"; git push;
+      - name: Install NPM Packages
+        run: npm install; npm install next react react-dom; npm i bun-doc -g
+      - name: Clean the Package
+        run: rm -f ./tsconfig.json; rm -rf ./docs
+      - name: Build
+        run: bun-doc build; npx next build && npx next export; mv ./out ./docs
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
