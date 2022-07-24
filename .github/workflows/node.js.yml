@@ -2,7 +2,7 @@ name: Generate Documentation Website
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
