@@ -18,7 +18,7 @@ export class SQLiteQueryBuilder {
     return new SQLiteFilterBuilder(result);
   };
 
-  insert = (columns: Array<Record<string, string>>) => {
+  insert = (columns: Array<Record<string, any>>) => {
     return columns.map(column => {
       const paramenters = [
         `INSERT INTO ${this.table}`,
