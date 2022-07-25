@@ -1,4 +1,4 @@
-export enum DataType {
+const enum BurmType {
   TEXT = "TEXT",
   INTEGER = "INTEGER",
   BOOLEAN = "BOOLEAN",
@@ -16,3 +16,5 @@ export enum DataType {
   GUID = "GUID",
   STREAM = "STREAM",
 }
+
+export default BurmType;
