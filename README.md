@@ -96,15 +96,9 @@ We want Burm to be the go-to ORM for Bun, but how are we going to do that? Well,
 
 1. Build a modular skeleton of an ORM. This will allow basic CRUD, Middleware, Caching, and some other features.
 2. Create database wrappers
-    - SQL
     - SQLite
-    - Snowflake
     - postgreSQL
-    - MongoDB
-    - CasandraDB
-    - SQL Server
-    - CockroachDB
-    - MariaDB
+    - SQL
 3. Create database packages
     - There is no point in having database wrappers (which are used to generate the queries), if you do not have packages to actually connect to the database and run the queries. That is why for each database wrapper, we will also need a database package.
 
