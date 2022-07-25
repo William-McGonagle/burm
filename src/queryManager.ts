@@ -1,119 +1,96 @@
 import Sqlite from "./databases/sqlite";
 import { DataType } from "./index";
+import { ColumnProps } from "./types/Column";
 import { ModelProps } from "./types/Model";
-import { ParameterProps } from "./types/Parameter";
+import { ModelSchema } from "./types/ModelSchema";
 
-function register<Type = any>(name, object):ModelProps<Type> {
-  let parameters = new Map<string, ParameterProps>();
+function register(table: string, model: Record<string, DataType>) {
+  let columns: Array<ColumnProps> = new Array();
 
-  parameters.set("id", {
-    type: DataType.INTEGER,
-    key: true,
-    primary: true,
-    default: null,
-    nullable: true,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
-
-  parameters.set("createdAt", {
-    type: DataType.DATETIME,
-    key: false,
-    primary: false,
-    default: null,
-    nullable: true,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
-
-  parameters.set("updatedAt", {
-    type: DataType.DATETIME,
-    key: false,
-    primary: false,
-    default: null,
-    nullable: true,
-    onUpdate: () => null,
-    onCreate: () => null,
-  });
-
-  for (const key in object) {
-    if (typeof object[key] == "string") {
-      parameters.set(key, {
-        type: object[key],
-        key: false,
-        primary: false,
-        default: null,
-        nullable: true,
-        onUpdate: () => null,
-        onCreate: () => null,
-      });
-    } else if (typeof object[key] == "object") {
-      parameters.set(key, {
-        type: DataType.OBJECT,
-        key: false,
-        primary: false,
-        default: null,
-        nullable: true,
-        onUpdate: () => null,
-        onCreate: () => null,
-        ...object[key],
-      });
+  columns.push(
+    {
+      field: "id",
+      type: DataType.INTEGER,
+      key: true,
+      primary: true,
+      default: undefined,
+      nullable: false,
+      onUpdate: () => null,
+      onCreate: () => null,
+    },
+    {
+      field: "createdAt",
+      type: DataType.DATETIME,
+      key: false,
+      primary: false,
+      default: "(datetime('now', 'localtime'))",
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
+    },
+    {
+      field: "updatedAt",
+      type: DataType.DATETIME,
+      key: false,
+      primary: false,
+      default: "(datetime('now', 'localtime'))",
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
     }
+  );
+
+  for (const key in model) {
+    // TODO: model is DataType.OBJECT
+
+    columns.push({
+      field: key,
+      type: model[key],
+      key: false,
+      primary: false,
+      default: undefined,
+      nullable: true,
+      onUpdate: () => null,
+      onCreate: () => null,
+    });
   }
 
-  const intermediate:ModelProps<Type> = {
-    name,
+  const _model = {} as const;
+  // columns.forEach(c => {
+  //   _model[c.field] = c.type;
+  // });
+  type Model = ModelSchema<typeof _model>;
+
+  const intermediate: ModelProps<Model> = {
+    table,
     hasParameter: function (paramName) {
       return this.parameters.has(paramName);
     },
-    findOne: function (query):Type {
-      return findOne<Type>(query, this);
+    findOne: function (query) {
+      return Sqlite.findOne(query, this);
     },
-    findAll: function (query):Type[] {
-      return findAll<Type>(query, this);
+    findAll: function (query) {
+      return Sqlite.findAll(query, this);
     },
-    create: function (query):Type {
-      return create<Type>(query, this);
+    create: function (query) {
+      return Sqlite.create(query, this);
     },
-    remove: function (query):Type {
-      return remove<Type>(query, this);
+    remove: function (query) {
+      return Sqlite.remove(query, this);
     },
-    clear: function ():Type {
-      return clear<Type>({}, this);
+    clear: function () {
+      return Sqlite.clear(this);
     },
-    parameters,
-    belongsTo: [],
-    hasMany: [],
+    columns,
+    belongsTo: new Array(),
+    hasMany: new Array(),
   };
 
-  Sqlite.initializeModel<Type>(intermediate);
+  Sqlite.initializeModel<Model>(intermediate);
 
   return intermediate;
 }
 
-const customQuery = customQueryText => Sqlite.customQuery(customQueryText);
-
-function findOne<Type> (queryObject, databaseObject):Type {
-  return Sqlite.findOne(queryObject, databaseObject);
-}
-
-function findAll<Type> (queryObject, databaseObject):Type[] {
-  return Sqlite.findAll(queryObject, databaseObject);
-}
-
-function create<Type> (queryObject, databaseObject):Type {
-  return Sqlite.create(queryObject, databaseObject);
-}
-
-function remove<Type> (queryObject, databaseObject):Type {
-  return Sqlite.remove(queryObject, databaseObject);
-}
-
-function clear<Type> (queryObject, databaseObject):Type {
-  return Sqlite.clear(queryObject, databaseObject);
-}
-
 export default {
   register,
-  customQuery,
 };

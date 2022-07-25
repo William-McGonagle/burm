@@ -1,6 +1,7 @@
 import { DataType } from "./DataType";
 
-export type ParameterProps = {
+export type ColumnProps = {
+  field: string;
   type: DataType;
   key: boolean;
   primary: boolean;
