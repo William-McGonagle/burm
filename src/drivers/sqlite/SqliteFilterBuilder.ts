@@ -14,4 +14,10 @@ export class SQLiteFilterBuilder<T> extends SQLiteBuilder<T> {
 
     return new SQLiteTransformBuilder(this);
   };
+
+  neq = (column: string, value: any) => {
+    this.result = this.result.filter(c => c[column] !== value);
+
+    return new SQLiteTransformBuilder(this);
+  };
 }
