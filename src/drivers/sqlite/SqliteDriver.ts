@@ -7,8 +7,9 @@ import { SQLiteQueryBuilder } from "./SqliteQueryBuilder";
 export class SQLiteDriver implements SQLiteDriverProps {
   private static SQLiteDriver: SQLiteDriverProps;
   db: Database;
-  register: () => ModelProps;
   result: Array<any>;
+  register: () => ModelProps;
+  from: <T>() => SQLiteQueryBuilder<T>;
 
   private constructor(dbPath: string = ":memory:") {
     this.db = new Database(dbPath);
@@ -51,7 +52,11 @@ export class SQLiteDriver implements SQLiteDriverProps {
     return intermediate;
   };
 
-  public static from = (table: string) => {
-    return new SQLiteQueryBuilder(this.Instance.db, table);
+  public static from = <T>(table: string): SQLiteQueryBuilder<T> => {
+    return new SQLiteQueryBuilder(
+      this.Instance.db,
+      table,
+      this.Instance.result
+    );
   };
 }

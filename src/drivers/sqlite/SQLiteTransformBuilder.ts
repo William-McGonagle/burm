@@ -2,18 +2,15 @@ import { SQLiteBuilder } from "./SQLiteBuilder";
 
 export default class SQLiteTransformBuilder<T> extends SQLiteBuilder<T> {
   /**
-   * Performs vertical filtering with SELECT.
-   *
-   * @param columns  The columns to retrieve, separated by commas.
+   * Retrieves all rows of the result.
    */
-  select = (columns = "*"): this => {
-    this.result = this.db
-      .query(`SELECT ${columns.split("").join(", ")} from ${this.table}`)
-      .all();
-
-    return this;
+  all = () => {
+    return this.result;
   };
 
+  /**
+   * Retrieves only one the first row of the result.
+   */
   single = () => {
     return this.result[0];
   };

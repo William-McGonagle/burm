@@ -1,12 +1,14 @@
 import { Database } from "bun:sqlite";
+import { ColumnProps } from "../../types/Column";
 import { SQLiteBuilder } from "./SQLiteBuilder";
 import { SQLiteFilterBuilder } from "./SqliteFilterBuilder";
 
 export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
-  constructor(db: Database, table: string) {
-    super({ db, table } as unknown as SQLiteBuilder<T>);
+  constructor(db: Database, table: string, result: Array<any>) {
+    super({ db, table, result } as unknown as SQLiteBuilder<T>);
     this.db = db;
     this.table = table;
+    this.result = result;
   }
 
   /**
@@ -22,6 +24,11 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
     return new SQLiteFilterBuilder(this);
   };
 
+  /**
+   * Performs an INSERT into the table.
+   *
+   * @param columns  The key-value array to insert.
+   */
   insert = (columns: Array<Record<string, any>>) => {
     return columns.map(column => {
       const paramenters = [
@@ -36,5 +43,20 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
     });
   };
 
-  delete = () => {};
+  /**
+   * Performs an UPDATE on the table.
+   *
+   * @param columns  The columns to update.
+   */
+  update = () => {};
+
+  /**
+   * Performs a DELETE on the table.
+   *
+   * @param columns  The columns to delete.
+   */
+  delete = (): SQLiteFilterBuilder<T> => {
+    return new SQLiteFilterBuilder(this);
+  };
+
 }
