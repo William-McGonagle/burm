@@ -47,14 +47,24 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
   /**
    * Performs an UPDATE on the table.
    *
-   * @param columns  The columns to update.
+   * @param old  The key-value to update on.
+   * @param updated  The key-value to update with.
    */
-  update = () => {};
+  update = (old: Record<string, any>, updated: Record<string, any>) => {
+    const paramenters = [
+      `UPDATE ${this.table} SET`,
+      `${Object.keys(updated)} = "${Object.values(updated)}"`,
+      `WHERE ${Object.keys(old)} = "${Object.values(old)}";`,
+    ];
+
+    this.db.query(paramenters.join(" ")).all();
+  };
 
   /**
    * Performs a DELETE on the table.
    *
-   * @param columns  The columns to delete.
+   * @param column  The column to filter on.
+   * @param value  The value to filter with.
    */
   delete = (column: string, value: any) => {
     const paramenters = [
@@ -62,14 +72,11 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
       `WHERE ${column} = "${value}";`,
     ];
 
-    console.log(paramenters.join(" "));
-
     return this.db.query(paramenters.join(" ")).all();
-
-    // return new SQLiteFilterBuilder(this);
   };
 
   /**
+   *
    * Exports the table to a equally named csv file.
    */
   export = () => {
