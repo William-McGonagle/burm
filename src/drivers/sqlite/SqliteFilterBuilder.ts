@@ -1,6 +1,7 @@
+import { SQLiteBuilder } from "./SQLiteBuilder";
 import SQLiteTransformBuilder from "./SQLiteTransformBuilder";
 
-export class SQLiteFilterBuilder<T> extends SQLiteTransformBuilder<T> {
+export class SQLiteFilterBuilder<T> extends SQLiteBuilder<T> {
   /**
    * Finds all rows whose value on the stated `column` exactly matches the
    * specified `value`.
@@ -10,5 +11,7 @@ export class SQLiteFilterBuilder<T> extends SQLiteTransformBuilder<T> {
    */
   eq = (column: string, value: any) => {
     this.result = this.result.filter(c => c[column] === value);
+
+    return new SQLiteTransformBuilder(this);
   };
 }
