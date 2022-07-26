@@ -10,6 +10,7 @@ export class SQLiteDriver implements SQLiteDriverProps {
   result: Array<any>;
   register: () => ModelProps;
   from: <T>() => SQLiteQueryBuilder<T>;
+  export: () => Array<any>;
 
   private constructor(dbPath: string = ":memory:") {
     this.db = new Database(dbPath);

@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { writeFileSync } from "fs";
 import { ColumnProps } from "../../types/Column";
 import { SQLiteBuilder } from "./SQLiteBuilder";
 import { SQLiteFilterBuilder } from "./SqliteFilterBuilder";
@@ -59,4 +60,25 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
     return new SQLiteFilterBuilder(this);
   };
 
+  /**
+   * Exports the table to a equally named csv file.
+   */
+  export = () => {
+    const tempResult: Array<ColumnProps> = this.db
+      .query<Array<ColumnProps>>(`SELECT * FROM ${this.table};`)
+      .all();
+
+    const keys = Object.keys(tempResult[0]).join(",");
+    const values = tempResult.map(tr => {
+      return Object.values(tr).join(",");
+    });
+
+    writeFileSync(
+      `./${this.table}.csv`,
+      [keys, ...values].join("\r\n"),
+      (err: any) => {
+        return console.error(err);
+      }
+    );
+  };
 }

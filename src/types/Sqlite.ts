@@ -18,4 +18,5 @@ export interface SQLiteQueryBuilderProps<T> {
   insert?: (columns: Array<Record<string, any>>) => void;
   update?: () => void;
   delete?: () => void;
+  export?: () => Array<any>;
 }
