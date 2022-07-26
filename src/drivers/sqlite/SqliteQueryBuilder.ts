@@ -56,8 +56,17 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
    *
    * @param columns  The columns to delete.
    */
-  delete = (): SQLiteFilterBuilder<T> => {
-    return new SQLiteFilterBuilder(this);
+  delete = (column: string, value: any) => {
+    const paramenters = [
+      `DELETE FROM ${this.table}`,
+      `WHERE ${column} = "${value}";`,
+    ];
+
+    console.log(paramenters.join(" "));
+
+    return this.db.query(paramenters.join(" ")).all();
+
+    // return new SQLiteFilterBuilder(this);
   };
 
   /**
@@ -65,7 +74,7 @@ export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
    */
   export = () => {
     const tempResult: Array<ColumnProps> = this.db
-      .query<Array<ColumnProps>>(`SELECT * FROM ${this.table};`)
+      .query(`SELECT * FROM ${this.table};`)
       .all();
 
     const keys = Object.keys(tempResult[0]).join(",");

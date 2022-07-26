@@ -15,6 +15,13 @@ export class SQLiteFilterBuilder<T> extends SQLiteBuilder<T> {
     return new SQLiteTransformBuilder(this);
   };
 
+  /**
+   * Finds all rows whose value on the stated `column` doesn't match the
+   * specified `value`.
+   *
+   * @param column  The column to filter on.
+   * @param value  The value to filter with.
+   */
   neq = (column: string, value: any) => {
     this.result = this.result.filter(c => c[column] !== value);
 
