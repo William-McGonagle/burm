@@ -1,3 +1,16 @@
+/* The following types can be used when binding parameters:
+ *
+ * | JavaScript type | SQLite type |
+ * | -------------- | ----------- |
+ * | `string` | `TEXT` |
+ * | `number` | `INTEGER` or `DECIMAL` |
+ * | `boolean` | `INTEGER` (1 or 0) |
+ * | `Uint8Array` | `BLOB` |
+ * | `Buffer` | `BLOB` |
+ * | `bigint` | `INTEGER` |
+ * | `null` | `NULL` |
+ */
+
 const enum BurmType {
   TEXT = "TEXT",
   INTEGER = "INTEGER",

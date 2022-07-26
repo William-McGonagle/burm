@@ -7,11 +7,11 @@ export interface SQLiteDriverProps {
   register: () => ModelProps;
 }
 
-export interface SQLiteQueryBuilderProps {
+export interface SQLiteQueryBuilderProps<T> {
   db: Database;
   table: string;
-
-  select: () => SQLiteFilterBuilder;
-  insert: (columns: Array<Record<string, any>>) => void[];
+  result: Array<any>;
+  select: () => SQLiteFilterBuilder<T>;
+  insert: (columns: Array<Record<string, any>>) => void;
   delete: () => void;
 }

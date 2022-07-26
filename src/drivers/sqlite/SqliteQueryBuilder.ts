@@ -1,22 +1,25 @@
 import { Database } from "bun:sqlite";
-import { ColumnProps } from "../../types/Column";
-import { SQLiteQueryBuilderProps } from "../../types/Sqlite";
+import { SQLiteBuilder } from "./SQLiteBuilder";
 import { SQLiteFilterBuilder } from "./SqliteFilterBuilder";
 
-export class SQLiteQueryBuilder implements SQLiteQueryBuilderProps {
-  db: Database;
-  table: string;
-
+export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
   constructor(db: Database, table: string) {
+    super({ db, table } as unknown as SQLiteBuilder<T>);
     this.db = db;
     this.table = table;
   }
 
-  select = (columns = "*") => {
-    const result: Array<ColumnProps> = this.db
+  /**
+   * Performs vertical filtering with SELECT.
+   *
+   * @param columns  The columns to retrieve, separated by commas.
+   */
+  select = (columns = "*"): SQLiteFilterBuilder<T> => {
+    this.result = this.db
       .query(`SELECT ${columns.split("").join(", ")} from ${this.table}`)
       .all();
-    return new SQLiteFilterBuilder(result);
+
+    return new SQLiteFilterBuilder(this);
   };
 
   insert = (columns: Array<Record<string, any>>) => {
