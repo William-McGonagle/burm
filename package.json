@@ -4,6 +4,12 @@
   "description": "Burm is an object relational manager for Bun.",
   "main": "src/index.ts",
   "private": false,
+  "author": {
+    "name": "William-McGonagle",
+    "url": "https://github.com/William-McGonagle"
+  },
+  "maintainers": ["William-McGonagle", "fabianlanzerath"],
+  "contributors": ["BergerAPI", "adetyaz", "Peu77"],
   "scripts": {
     "start": "bun src/index.ts"
   },
