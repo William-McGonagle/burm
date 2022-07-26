@@ -1,10 +1,11 @@
 import { Database } from "bun:sqlite";
 import { ColumnProps } from "../../types/Column";
+import { SQLiteQueryBuilderProps } from "../../types/Sqlite";
 import { SQLiteFilterBuilder } from "./SqliteFilterBuilder";
 
-export class SQLiteQueryBuilder {
-  private db: Database;
-  private table: string;
+export class SQLiteQueryBuilder implements SQLiteQueryBuilderProps {
+  db: Database;
+  table: string;
 
   constructor(db: Database, table: string) {
     this.db = db;
