@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
-import { SQLiteFilterBuilder } from "../drivers/sqlite/SqliteFilterBuilder";
-import { SQLiteQueryBuilder } from "../drivers/sqlite/SqliteQueryBuilder";
+import { SQLiteFilterBuilder } from "../drivers/sqlite/SQLiteFilterBuilder";
+import { SQLiteQueryBuilder } from "../drivers/sqlite/SQLiteQueryBuilder";
 import { ModelProps } from "./Model";
 
 export interface SQLiteDriverProps {

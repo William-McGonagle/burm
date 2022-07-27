@@ -2,7 +2,7 @@ import { Database } from "bun:sqlite";
 import { writeFileSync } from "fs";
 import { ColumnProps } from "../../types/Column";
 import { SQLiteBuilder } from "./SQLiteBuilder";
-import { SQLiteFilterBuilder } from "./SqliteFilterBuilder";
+import { SQLiteFilterBuilder } from "./SQLiteFilterBuilder";
 
 export class SQLiteQueryBuilder<T> extends SQLiteBuilder<T> {
   constructor(db: Database, table: string, result: Array<any>) {

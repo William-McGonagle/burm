@@ -2,7 +2,7 @@ import { Database } from "bun:sqlite";
 import { ColumnProps } from "../../types/Column";
 import { ModelProps } from "../../types/Model";
 import { SQLiteDriverProps } from "../../types/Sqlite";
-import { SQLiteQueryBuilder } from "./SqliteQueryBuilder";
+import { SQLiteQueryBuilder } from "./SQLiteQueryBuilder";
 
 export class SQLiteDriver implements SQLiteDriverProps {
   private static SQLiteDriver: SQLiteDriverProps;
