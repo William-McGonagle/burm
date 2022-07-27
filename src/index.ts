@@ -1,6 +1,5 @@
-import Condition from "./condition";
-import QueryManager from "./queryManager";
-import { DataType } from "./types/DataType";
+import { SQLiteDriver } from "./drivers/sqlite/SqliteDriver";
+import BurmType from "./types/BurmType";
 
-export default QueryManager;
-export { DataType, Condition };
+export default SQLiteDriver;
+export { BurmType };

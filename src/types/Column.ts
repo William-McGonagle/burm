@@ -1,12 +1,12 @@
-import { DataType } from "./DataType";
+import BurmType from "./BurmType";
 
 export type ColumnProps = {
   field: string;
-  type: DataType;
-  key: boolean;
-  primary: boolean;
-  default: any;
-  nullable: boolean;
-  onUpdate: () => any;
-  onCreate: () => any;
+  type: BurmType;
+  primary?: boolean;
+  default?: any;
+  nullable?: boolean;
+  // key: boolean;
+  // onUpdate: () => any;
+  // onCreate: () => any;
 };
